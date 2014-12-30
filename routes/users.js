@@ -9,7 +9,7 @@ router.get('/user/all', function(req, res) {
   });
 });
 
-router.post('/user', function(req, res) {
+function createUser(req, res) {
   var user = req.body;
   console.log('user: ', user);
 
@@ -21,7 +21,9 @@ router.post('/user', function(req, res) {
     if(err) res.send({ success: false, error: err });
     else    res.send({ success: true });
   });
-});
+};
+
+router.post('/user', createUser);
 
 router.get('/user/:id', function(req, res) {
   var userId = req.params.id;
