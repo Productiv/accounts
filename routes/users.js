@@ -27,9 +27,9 @@ createUser = function(req, res) {
 router.post('/user', createUser);
 
 router.get('/user/:id', function(req, res) {
-  var userId = req.params.id;
-  console.log('userId: ', userId);
-  User.findOne(userId, function(err, user) {
+  var uid = req.params.id;
+  console.log('uid: ', uid);
+  User.findOne({ _id: uid }, function(err, user) {
     if(err) res.send(error);
     else    res.send(user);
   });
