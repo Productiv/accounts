@@ -9,13 +9,14 @@ router.get('/user/all', function(req, res) {
   });
 });
 
-function createUser(req, res) {
+createUser = function(req, res) {
   var user = req.body;
   console.log('user: ', user);
 
   var newUser = new User();
   newUser.email = user.email;
   newUser.password = newUser.generateHash(user.password);
+  newUser.name = user.name;
 
   newUser.save(function(err) {
     if(err) res.send({ success: false, error: err });

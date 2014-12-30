@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../models/user');
+var Token = require('../models/token');
 
 router.post('/signup', function(req, res, next) {
   var user = req.body;
@@ -12,17 +14,21 @@ router.post('/signup', function(req, res, next) {
 }, createUser);
 
 router.post('/login', function(req, res, next) {
-  var body = req.body;
-  console.log('body: ', body);
-  User.findOne({ email: body.email }, function(err, user) {
+  var email = req.body.email;
+  var password = req.body.password;
+  console.log('email: ', email);
+  console.log('password: ', password);
+  User.findOne({ email: email }, function(err, user) {
+    console.log('user: ', user);
     if(err)        res.send({ success: false, message: err });
     else if(!user) res.send({ success: false, message: 'Email not registered.' });
-    else if(user.validPassword(body.password)) next(user);
-    else {
-      res.send({ success: false, message: 'Incorrect password.' });
+    else if(user.validPassword(password)) {
+      req.body = user;
+      next();
     }
+    else res.send({ success: false, message: 'Incorrect password.' });
   });
-}, createToken);
+}, createOrUpdateToken);
 
 router.post('/logout', function(req, res, next) {
   var email = req.body.email;
@@ -30,7 +36,10 @@ router.post('/logout', function(req, res, next) {
   User.findOne({ email: email }, function(err, user) {
     if(err)        res.send({ success: false, message: err });
     else if(!user) res.send({ success: false, message: 'Email not registered.' });
-    else           next({ _id: user._id });
+    else {
+      req.body = user;
+      next();
+    }
   });
 }, deleteToken);
 

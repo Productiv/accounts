@@ -4,7 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var tokenSchema = mongoose.Schema({
   uid       : ObjectId,
-  hash      : String,
+  tokenHash : String,
   expiresOn : Date
 });
 
@@ -16,7 +16,7 @@ tokenSchema.methods.generateHash = function(token) {
 
 // checking if hash is valid
 tokenSchema.methods.validToken = function(token) {
-  return bcrypt.compareSync(token, this.hash);
+  return bcrypt.compareSync(token, this.tokenHash);
 };
 
 // create the model for users and expose it to our app
