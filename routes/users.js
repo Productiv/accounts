@@ -4,7 +4,7 @@ var User = require('../models/user');
 
 router.get('/user/all', function(req, res) {
   User.find({}, function(err, users) {
-    if(err) res.send(error);
+    if(err) res.error(err);
     else    res.send(users);
   });
 });
@@ -30,7 +30,7 @@ router.get('/user/:id', function(req, res) {
   var uid = req.params.id;
   console.log('uid: ', uid);
   User.findOne({ _id: uid }, function(err, user) {
-    if(err) res.send(error);
+    if(err) res.error(err);
     else    res.send(user);
   });
 });
