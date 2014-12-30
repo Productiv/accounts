@@ -24,8 +24,8 @@ createToken = function(req, res) {
   obj.save(function(err) {
     if(err) res.send({ success: false, message: err });
     else {
-      res.cookie('token', token);
-      res.cookie('uid', uid);
+      res.cookie('productiv-token', token);
+      res.cookie('productiv-uid', uid);
       res.send({ success: true });
     }
   });
