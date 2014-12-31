@@ -31,11 +31,11 @@ router.post('/login', function(req, res, next) {
 }, createOrUpdateToken);
 
 router.post('/logout', function(req, res, next) {
-  var email = req.body.email;
-  console.log('email: ', email);
-  User.findOne({ email: email }, function(err, user) {
+  var uid = req.body._id || req.body.uid;
+  console.log('logout uid: ', uid);
+  User.findOne({ _id: uid }, function(err, user) {
     if(err)        res.send({ success: false, message: err });
-    else if(!user) res.send({ success: false, message: 'Email not registered.' });
+    else if(!user) res.send({ success: false, message: 'User not found.' });
     else {
       req.body = user;
       next();
